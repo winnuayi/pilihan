@@ -1,0 +1,23 @@
+Feed
+- menampilkan feed yang berasal dari topic yang difollow
+- menampilkan feed yang berasal dari user yang difollow
+
+Ask
+- menambahkan pertanyaan baru
+- memberikan tagging secara otomatis menggunakan NLP
+
+Answer
+- menampilkan jawaban
+- menampilkan related question
+- melakukan merging jawaban-jawaban dari pertanyaan-pertanyaan yang mirip
+
+Profile
+- user dapat melihat user yang memfollow
+- user dapat melihat user yang difollow
+- user dapat melihat pertanyaan yang pernah ditulis
+- user dapat melihat jawaban yang pernah ditulis
+- user dapat melihat history aktivitas (upvote, downvote)
+- user dapat mengisi data diri
+- user dapat mengupload profile picture
+
+Statistic

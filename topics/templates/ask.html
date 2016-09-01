@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <section class="ui ask">
+      <div class="ask-hint">Tuliskan pertanyaanmu</div>
+      <div><input type="question" name="ask" value="Apa " class="ask-question" autofocus/></div>
+      <div class="ui medium primary submit button right floated">Tanya</div>
+    </section>
+
+    {# <section> #}
+    {#   <div>Mungkin pertanyaan yang kamu cari sudah pernah dibuat!</div> #}
+    {# </section> #}
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+      // set autofocus after value
+      var el = $('.ask-question')[0];
+      el.focus();
+      el.setSelectionRange(el.value.length, el.value.length);
+
+      $('.submit').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: '{% url 'ask' %}',
+          method: 'POST',
+          data: {
+            question: $('.ask-question')[0].value,
+            csrfmiddlewaretoken: Cookies.get('csrftoken')
+          }
+        }).done(function(response) {
+          if (response.success === 0) {
+            window.location.href = "{% url 'feed' %}";
+          }
+        });
+      });
+    </script>
+{% endblock %}

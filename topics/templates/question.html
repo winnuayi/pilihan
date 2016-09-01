@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{{ question.question }}</h1>
+    <div>
+      <div>{{ question.view }} Views</div>
+    </div>
+    <div>
+      <div>
+        <button class="ui primary basic button answer-button"><i class="write icon"></i> Jawab</button>
+        <button class="ui primary basic button follow-button" data-isfollow="{{ is_follow }}"></i>{% if is_follow %}Unfollow{% else %}Follow{% endif %}</button>
+        <button class="ui primary basic button downvote-button" data-isdownvote="{{ is_downvote }}"></i>{% if is_downvote %}Undo downvote{% else %}Downvote{% endif %}</button>
+       <button class="ui primary basic button comment-button">Comment</button>
+      </div>
+      <div>
+        <textarea class="answer" name="answer" cols="60" rows="10"></textarea>
+      </div>
+      <div>{{ answer_count }} Jawaban</div>
+      <hr>
+      {% for answer in answers %}
+        <div>
+          <div>{{ answer.creator.fullname }}</div>
+          <div>{{ answer.answer }}</div>
+          <div>{{ answer.created_at }}</div>
+          <div>
+            <button class="ui primary basic button upvote-button" data-isupvote="{{ is_upvote }}"></i>{% if is_upvote %}Undo upvote{% else %}Upvote{% endif %}</button>
+            <button class="ui primary basic button downvote-button" data-isdownvote="{{ is_downvote }}"></i>{% if is_downvote %}Undo downvote{% else %}Downvote{% endif %}</button>
+            <button class="ui primary basic button comment-button">Comment</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+      $('.answer-button').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          {# url: "{% url 'question' %}", #}
+          method: 'POST',
+          data: {
+            answer: $('.answer')[0].value,
+            csrfmiddlewaretoken: Cookies.get('csrftoken')
+          }
+        }).done(function(response) {
+          if (response.success === 0) {
+            console.log(response);
+          }
+        });
+      });
+
+      $('.follow-button').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "{% url 'question-follower' %}",
+          method: 'POST',
+          data: {
+            question_id: '{{ question.id }}',
+            is_follow: $('.follow-button').data('isfollow'),
+            csrfmiddlewaretoken: Cookies.get('csrftoken')
+          }
+        }).done(function(response) {
+          if (response.success === 0) {
+            $('.follow-button').data('isfollow', response.data.is_follow);
+
+            if (response.data.is_follow === 1) {
+              $('.follow-button').text('Unfollow');
+            } else {
+              $('.follow-button').text('Follow');
+            }
+          }
+        });
+      });
+
+      $('.downvote-button').click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "{% url 'question-downvote' %}",
+          method: 'POST',
+          data: {
+            question_id: '{{ question.id }}',
+            is_downvote: $('.downvote-button').data('isdownvote'),
+            csrfmiddlewaretoken: Cookies.get('csrftoken')
+          }
+        }).done(function(response) {
+          if (response.success === 0) {
+            $('.downvote-button').data('isdownvote', response.data.is_downvote);
+
+            if (response.data.is_downvote === 1) {
+              $('.downvote-button').text('Undo downvote');
+            } else {
+              $('.downvote-button').text('Downvote');
+            }
+          }
+        });
+      });
+    </script>
+{% endblock %}

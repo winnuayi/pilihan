@@ -1,0 +1,50 @@
+{% load static %}
+
+<!doctype>
+<html>
+  <head>
+    <title>Pilihan.com</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'topics/css/default.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'topics/bower_components/semantic/dist/semantic.min.css' %}">
+  </head>
+
+  <body>
+    <div class="ui secondary pointing menu" style="border-bottom: 1px solid #dedede;margin-bottom:0px">
+      <a class="item" href="{% url 'feed' %}">PILIHAN</a>
+      <div class="item">
+        <div class="ui icon input">
+          <input type="text" placeholder="Cari pertanyaan">
+          {# <input type="text" size="100" placeholder="Search..." style="padding:4px 8px 4px 8px"> #}
+          <i class="search icon"></i>
+        </div>
+      </div>
+      <div class="item">
+          <div class="ui primary button" onclick="location.href='{% url 'ask' %}'" style="padding:10px 21px 10px 21px">Tanya</div>
+      </div>
+      <div class="right menu">
+        <a class="ui item">{{ fullname }}</a>
+        <a class="ui item" href="{% url 'logout' %}">Logout</a>
+      </div>
+    </div>   
+
+    <div class="ui secondary pointing menu" style="border-bottom: 1px solid #dedede;margin-top:0px;margin-bottom:0px">
+      {% for category in categories %}
+        <a class="item"><strong>{{ category}}</strong></a>
+      {% endfor %}
+    </div>   
+
+    {% block content %}{% endblock%}
+
+    <script type="text/javascript" src="{% static 'topics/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'topics/bower_components/semantic/dist/semantic.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'topics/bower_components/js-cookie/src/js.cookie.js' %}"></script>
+
+    {% block javascript %}{% endblock%}
+
+  </body>
+</html>

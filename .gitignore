@@ -1,0 +1,3 @@
+*.pyc
+/topics/migrations/
+/topics/static/topics/bower_components/

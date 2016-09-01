@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="feed">
+      {% for question in questions %}
+      <div class="question">
+        <div class="question-category">{{ question.category }}</div>
+        <div class="question-question"><a href="{{ question.slug }}/">{{ question.question }}</a></div>
+        <div class="question-footer">Top 3 dari 10 pilihan</div>
+        <div>
+          <ul>
+          {% for answer in question.answer_set.all %}
+            <li>
+              <div>{{ answer.creator.fullname }} - {{ answer.answer }}</div>
+              <div>10 | <a href="#">Upvote</a> | <a href="#">Downvote</a> | <a href="#">5 Pros dan 3 Cons</a></div>
+            </li>
+          {% endfor %} 
+          </ul>
+        </div>
+        <div>Tampilkan semua | Tambah pilihan lain</div>
+      </div>
+      <hr>
+      {% endfor %}
+    </div>
+{% endblock %}
